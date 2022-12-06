@@ -938,6 +938,14 @@ class TestSklearnAdapter:
         wf.fit(X, Y)
         assert wf.predict(X).shape[0] == X.shape[0]
 
+    def test_can_make_single_prediction(self, X, Y):
+
+        base_model = sklearn_adapter(CoxPHFitter, event_col="E")
+        cph = base_model()
+        cph.fit(X,Y)
+        cph.predict(X.iloc[0:1])
+
+
     def test_dill(self, X, Y):
         import dill
 
