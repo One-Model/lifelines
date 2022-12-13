@@ -73,8 +73,12 @@ class _SklearnModel(BaseEstimator, MetaEstimatorMixin, RegressorMixin):
         X: DataFrame or numpy array
 
         """
-        predictions = getattr(self.lifelines_model, self._predict_method)(X, **kwargs).squeeze().values
-        return predictions
+        predictions = getattr(self.lifelines_model, self._predict_method)(X, **kwargs)
+
+        if X.shape[0] > 1:
+            predictions = predictions.squeeze()
+
+        return predictions.values
 
     def score(self, X, y, **kwargs):
         """
